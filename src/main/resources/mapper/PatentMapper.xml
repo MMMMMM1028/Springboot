@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ManageServices.dao.PatentMapper">
+    <cache type="com.ManageServices.redis.RedisCache2"/>
+    <insert id="insertPatent">
+        INSERT
+        INTO patent_(patentId, patentName, expertId)
+        VALUES (#{patentId}, #{patentName}, #{expertId})
+    </insert>
+
+    <update id="updatePatent">
+        UPDATE patent_
+        SET expertId = #{newExpertId}
+        WHERE patentId = #{patentId}
+    </update>
+
+    <delete id="deletePatent">
+        DELETE FROM patent_
+        <where>
+            <if test="patentId != null">
+                AND patentId = #{patentId}
+            </if>
+            <if test="expertId != -1">
+                AND expertId = #{expertId}
+            </if>
+        </where>
+    </delete>
+
+    <select id="selectPatent" resultType="java.util.Map">
+        SELECT patentId,patentName,e.expertId,e.name
+        FROM patent_ LEFT JOIN expert_ e ON patent_.expertId = e.expertId
+        <where>
+            <if test="patentName != null">
+                AND patentName LIKE "%"#{patentName}"%"
+            </if>
+            <if test="patentId != null">
+                AND  patent_.patentId = #{patentId}
+            </if>
+            <if test="expertId != -1">
+                AND patent_.expertId = #{expertId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

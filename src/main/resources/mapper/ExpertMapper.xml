@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ManageServices.dao.ExpertMapper">
+    <cache type="com.ManageServices.redis.RedisCache2"/>
+    <insert id="insertExpert">
+        INSERT
+        INTO expert_(field,organization,name,tel,mail)
+        VALUES (#{field},#{organization},#{name},#{tel},#{mail})
+    </insert>
+    <!--<insert id="insertExpert">-->
+        <!--INSERT-->
+        <!--INTO expert_(field,organization)-->
+        <!--VALUES (#{field},#{organization})-->
+    <!--</insert>-->
+    <update id="updateExpert">
+        UPDATE expert_
+        <set>
+            <if test="field != null">
+                field = #{field},
+            </if>
+            <if test="organization != null">
+                organization = #{organization},
+            </if>
+            <if test="income != -1">
+                income = #{income},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="tel != null">
+                tel = #{tel},
+            </if>
+            <if test="isPassed != -1">
+                isPassed = #{isPassed},
+            </if>
+            <if test="userId != -1">
+                userId = #{userId}
+            </if>
+        </set>
+        WHERE expertId = #{expertId}
+    </update>
+
+    <update id="bindUser">
+        UPDATE expert_
+        SET userId = #{userId}
+    </update>
+
+    <select id="selectByUid" resultType="java.util.Map">
+        select * from expert_
+        WHERE userId = #{userId}
+    </select>
+
+    <select id="selectApplyingExpert" resultType="java.util.Map">
+        SELECT * FROM expert_
+        WHERE isPassed = 0
+    </select>
+
+    <delete id="deleteExpert">
+        DELETE FROM expert_
+        WHERE expertId = #{expertId}
+    </delete>
+
+    <select id="selectExpertByName" resultType="java.util.Map">
+        SELECT name,field,organization,expertId
+        FROM expert_
+        WHERE name LIKE "%"#{expertName}"%"
+    </select>
+
+    <select id="selectExpertDetial" resultType="java.util.Map">
+        SELECT *
+        FROM expert_
+        WHERE expertId = #{expertId}
+    </select>
+
+    <!--<select id="selectPaperByEId" resultType="java.util.Map">-->
+        <!--select distinct title,author,publishedDate,downloadCount,paperId-->
+        <!--FROM expert_ e-->
+        <!--inner join expert_paper_ ep-->
+        <!--inner join paper_-->
+        <!--where e.expertId = #{expertId}-->
+    <!--</select>-->
+
+    <!--<select id="selectOwnPaperByEId" resultType="java.util.Map">-->
+        <!--SELECT DISTINCT *-->
+        <!--FROM expert_ e LEFT JOIN expert_paper_ ep on e.expertId = ep.expertId-->
+        <!--LEFT JOIN paper_ p ON e.expertId = p.ownerId-->
+        <!--WHERE e.expertId = #{expertId}-->
+    <!--</select>-->
+
+    <!--<select id="selectPatenteByEId" resultType="java.util.Map">-->
+        <!--select patentId,patentName-->
+        <!--FROM patent_-->
+        <!--WHERE expertId = #{expertId}-->
+    <!--</select>-->
+
+    <!--<select id="selectRealtionByEId" resultType="java.util.Map">-->
+        <!--SELECT DISTINCT e2.expertId,e2.name,ee.count-->
+        <!--FROM expert_ e INNER JOIN expert_expert_ ee ON e.expertId = ee.expertId1-->
+        <!--INNER JOIN expert_ e2 ON ee.expertId2 = e2.expertId-->
+        <!--WHERE e.expertId = #{expertId}-->
+    <!--</select>-->
+
+
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ManageServices.dao.ExpertPaperMapper">
+    <cache type="com.ManageServices.redis.RedisCache2"/>
+    <insert id="insertExpertPaper">
+        INSERT
+        INTO expert_paper_(expertId,paperId)
+        VALUES (#{expertId},#{paperId})
+    </insert>
+
+    <delete id="deleteExpertPaper">
+        DELETE FROM expert_paper_
+        <where>
+            <if test="paperId != -1">
+                AND paperId = #{paperId}
+            </if>
+            <if test="expertId != -1">
+                AND expertId = #{expertId}
+            </if>
+        </where>
+    </delete>
+
+    <!--链接专家论文表和论文表-->
+    <select id="selectExpertPaper" resultType="java.util.Map">
+        SELECT p.title,p.author,p.publishedDate,p.downloadCount
+        FROM expert_paper_ ep  LEFT JOIN paper_ p ON ep.paperId = p.paperId
+        WHERE ep.expertId = #{expertId}
+    </select>
+
+</mapper>

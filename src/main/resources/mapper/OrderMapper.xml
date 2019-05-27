@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ManageServices.dao.OrderMapper">
+    <cache type="com.ManageServices.redis.RedisCache2"/>
+    <insert id="insertOrder">
+        INSERT
+        INTO order_(userId,paperId,orderDate,amount)
+        VALUES (#{userId},#{paperId},#{orderDate},#{amount})
+    </insert>
+
+    <select id="selectOrder" resultType="java.util.Map">
+        SELECT orderDate,amount,p.paperId,p.title,p.author
+        FROM order_ o LEFT JOIN paper_ p ON o.paperId = p.paperId
+        <where>
+            <if test="userId != -1">
+                AND userId = #{userId}
+            </if>
+            <if test="paperId != -1">
+                and o.paperId = #{paperId}
+            </if>
+            <if test="fromDate != null and toDate != null">
+                and orderDate BETWEEN #{fromDate} and #{toDate}
+            </if>
+        </where>
+    </select>
+</mapper>

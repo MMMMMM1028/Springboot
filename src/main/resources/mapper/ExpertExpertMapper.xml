@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ManageServices.dao.ExpertExpertMapper">
+    <cache type="com.ManageServices.redis.RedisCache2"/>
+    <insert id="insertExpertExpert">
+        INSERT
+        INTO expert_expert_(expertId1, expertId2)
+        VALUES (#{expertId1}, #{expertId2})
+    </insert>
+
+    <select id="isExisted" resultType="String">
+        SELECT 1
+        FROM expert_expert_
+        WHERE (expertId1 = #{expertId1} and expertId2 = #{expertId2})
+        OR (expertId1 = #{expertId2} AND expertId2 = #{expertId1})
+    </select>
+
+    <update id="updateCount">
+        UPDATE expert_expert_
+        SET count = count+1
+        WHERE (expertId1 = #{expertId1} AND expertId1 = #{expertId2})
+        OR (expertId1 = #{expertId2} AND expertId2 = #{expertId1})
+    </update>
+
+    <delete id="deleteExpertExpert">
+        DELETE FROM expert_expert_
+        WHERE expertId2 = #{expertId} or expertId1 = #{expertId}
+    </delete>
+
+    <select id="selectExpertExpert" resultType="java.util.Map">
+        SELECT expertId2 , name,count
+        FROM expert_expert_ LEFT JOIN expert_ e ON expert_expert_.expertId1 = e.expertId
+        WHERE expertId1 = #{expertId}
+        UNION
+        SELECT expertId1, name,count
+        FROM expert_expert_ LEFT  JOIN expert_ e ON expert_expert_.expertId2 = e.expertId
+        WHERE expertId2 = #{expertId}
+    </select>
+
+</mapper>

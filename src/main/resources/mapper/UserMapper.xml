@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ManageServices.dao.UserMapper">
+    <cache type="com.ManageServices.redis.RedisCache2"/>
+    <insert id="insertUser">
+        INSERT
+        INTO user_ (userName, password, nickname, mail)
+        VALUES (#{userName},#{password},#{nickName},#{mail})
+    </insert>
+    <!--<select id="isExisted" resultType="boolean">-->
+        <!--SELECT TRUE-->
+        <!--FROM user_-->
+        <!--WHERE userName = #{userName}-->
+    <!--</select>-->
+
+    <update id="updateUser">
+        UPDATE user_
+        <set>
+            <if test="userName != null"> userName = #{userName},</if>
+            <if test="password != null"> password = #{password},</if>
+            <if test="nickName != null"> nickname = #{nickName},</if>
+            <if test="mail != null"> mail = #{mail},</if>
+            <if test="iconPath != null"> iconPath = #{iconPath},</if>
+            <if test="balance != -1"> balance = balance + #{balance}</if>
+        </set>
+        WHERE userId = #{userId}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM user_
+        WHERE userId = #{userId}
+    </delete>
+
+    <select id="selectUserDetial" resultType="java.util.Map">
+        select * FROM user_
+        WHERE userId = #{userId}
+    </select>
+
+    <select id="selectUserByUname" resultType="java.util.Map">
+        SELECT userId
+        FROM user_
+        WHERE userName = #{userName} and password = #{password}
+    </select>
+
+    <insert id="insertId">
+        INSERT into user_(userId) VALUES (#{userId})
+    </insert>
+</mapper>
