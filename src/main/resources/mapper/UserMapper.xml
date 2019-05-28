@@ -34,7 +34,7 @@
     </delete>
 
     <select id="selectUserDetial" resultType="java.util.Map">
-        select * FROM user_
+        select nickname,balance,iconPath,mail,expertId FROM user_
         WHERE userId = #{userId}
     </select>
 

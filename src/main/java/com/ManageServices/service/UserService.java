@@ -10,12 +10,12 @@ public interface UserService {
      * todo 认证过的专家登陆返回？
      * @param userName
      * @param pwd
-     * @return Map{"userId","expertId"} userId=null代表登陆失败，expertId=null代表
+     * @return
      */
     int login(String userName, String pwd);
 
     /**
-     * 返回用户的基本信息
+     * 用户基本信息,如果是专家，同时返回专家的信息
      * @param uid
      * @return 返回Map
      */
@@ -64,5 +64,30 @@ public interface UserService {
     int updateBalance(int userId, int increment);
 
 
+    /**
+     * todo
+     * 申请成为专家
+     * @param userId
+     * @param file
+     * @param organization
+     * @param name
+     * @param tel
+     * @param mail
+     * @return
+     */
+    int beExpert(int userId, String file, String organization, String name, String tel, String mail);
+
+    /**
+     * todo
+     * 认证已存在的专家
+     * @param userId
+     * @param field
+     * @param organization
+     * @param name
+     * @param tel
+     * @param mail
+     * @return
+     */
+    int authorizeExpert(int userId, String field, String organization, String name, String tel, String mail);
 
 }

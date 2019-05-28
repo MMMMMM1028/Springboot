@@ -15,6 +15,13 @@ public interface ExpertExpertMapper {
     int insertExpertExpert(@Param("expertId1")int expertId1, @Param("expertId2")int expertId2);
 
     /**
+     * 批量添加
+     * @param list
+     * @return
+     */
+    int insertByBatch(List<Map> list);
+
+    /**
      * 在插入钱调用，检查该关系是否存在，如果存在则增加合作次数，否则插入
      * @param expertId1
      * @param expertId2

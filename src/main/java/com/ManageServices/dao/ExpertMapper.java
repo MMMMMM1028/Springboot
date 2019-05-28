@@ -7,6 +7,13 @@ import java.util.Map;
 
 public interface ExpertMapper {
     /**
+     * 批量添加
+     * @param list
+     * @return
+     */
+    int insertByBatch(List<Map> list);
+
+    /**
      * 插入
      * @param field 领域
      * @param organization 组织
@@ -34,13 +41,13 @@ public interface ExpertMapper {
                      @Param("name")String name, @Param("tel")String tel, @Param("mail")String mail,
                      @Param("income")int income, @Param("isPassed")int isPassed, @Param("userId")int userId);
 
-    /**
-     * 绑定用户与专家
-     * @param userId
-     * @param expertId
-     * @return
-     */
-    int bindUser(@Param("userId")int userId,@Param("expertId")int expertId);
+//    /**
+//     * 绑定用户与专家
+//     * @param userId
+//     * @param expertId
+//     * @return
+//     */
+//    int bindUser(@Param("userId")int userId,@Param("expertId")int expertId);
 
     /**
      * 根据userId返回，专家全部个人信息

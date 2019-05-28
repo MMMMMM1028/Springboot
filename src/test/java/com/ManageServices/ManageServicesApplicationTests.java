@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,10 +160,16 @@ public class ManageServicesApplicationTests {
     }
 
     @Test
-	public void testRedis(){
-//		um.selectUserDetial(1);
-		String[] arg = new String[1];
-		arg[0] = "";
-		ManageServicesApplication.main(arg);
+	public void testBatch(){
+        Map expert = new HashMap();
+        expert.put("expertId",109);
+        expert.put("field","field");
+//		Map expert2 = new HashMap();
+//		expert2.put("expertId",107);
+//		expert2.put("field","field");
+        List<Map> list = new ArrayList<Map>();
+        list.add(expert);
+//        list.add(expert2);
+        em.insertByBatch(list);
 	}
 }

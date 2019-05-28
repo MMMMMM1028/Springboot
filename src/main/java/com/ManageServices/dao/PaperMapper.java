@@ -8,6 +8,13 @@ import java.util.Map;
 
 public interface PaperMapper {
     /**
+     * 批量添加
+     * @param list
+     * @return
+     */
+    int insertByBatch(List<Map> list);
+
+    /**
      * 插入时只有以下必要信息，其他信息只能修改
      * @param paperId 自增主键
      * @param title 论文题目

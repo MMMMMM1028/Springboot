@@ -5,6 +5,7 @@ import com.ManageServices.dao.PaperMapper;
 import com.ManageServices.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.print.Paper;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ public class OrderServiceImpl implements OrderService {
     UserMapper um;
 
     @Override
+    @Transactional
     public int purchasePaper(int userId, int paperId) {
         Map paper = pm.selectPaperDetial(paperId);
         Map user = um.selectUserDetial(userId);
@@ -38,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
         }
         return 1;
     }
-
+    @Transactional(readOnly = true)
     @Override
     public List<Map> selectOrderList(int userId, String fromDate, String toDate) {
         List<Map> orderList = om.selectOrder(userId,-1,fromDate,toDate);

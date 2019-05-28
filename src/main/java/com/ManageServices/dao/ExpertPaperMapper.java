@@ -7,6 +7,13 @@ import java.util.Map;
 
 public interface ExpertPaperMapper {
     /**
+     * 批量添加
+     * @param list
+     * @return
+     */
+    int insertByBatch(List<Map> list);
+
+    /**
      * 插入专家论文关系
      *      专家注册后，可认领论文，通过作者名字选出包含该专家的论文
      *      专家上传论文后，根据作者匹配所有专家，可选择该论文的其他作者，

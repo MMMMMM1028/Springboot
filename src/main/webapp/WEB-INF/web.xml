@@ -6,13 +6,6 @@
     <!--<listener>-->
         <!--<listener-class>com.ManageServices.RunMain</listener-class>-->
     <!--</listener>-->
-    <servlet>
-        <servlet-name>
-            haha
-        </servlet-name>
-        <servlet-class>
-            com.ManageServices.ManageServicesApplication
-        </servlet-class>
-    </servlet>
+
 
 </web-app>

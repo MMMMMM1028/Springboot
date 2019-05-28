@@ -1,8 +1,33 @@
 package com.ManageServices.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PaperService {
+
+    /**
+     * 批量添加论文
+     * Map {"paperId":int
+     *      "title":string
+     *      "summary":string
+     *      "keyword":String
+     *      "author":string
+     *      }
+     * @param list
+     * @return
+     */
+    int insertPaperByBatch(List<Map> list);
+
+    /**
+     * 批量添加专家论文
+     * Map {"expertId":int
+     *      "paperId":string
+     *      }
+     * @param list
+     * @return
+     */
+    int insertExpertPaperByBatch(List<Map> list);
+
     /**
      * 添加论文
      * @param title

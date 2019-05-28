@@ -7,6 +7,7 @@ import com.ManageServices.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.filter.OrderedHiddenHttpMethodFilter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,19 @@ public class PaperServiceImpl implements PaperService {
     UserMapper um;
     @Autowired
     OrderMapper om;
+
+    @Override
+    public int insertPaperByBatch(List<Map> list) {
+        return pm.insertByBatch(list);
+    }
+
+
+    @Override
+    public int insertExpertPaperByBatch(List<Map> list) {
+        return epm.insertByBatch(list);
+    }
+
+    @Transactional
     @Override
     public int uploadPaper(String title, String summary, String keyword, String author, String filePath, String publishDate, int ownerId) {
         Map paper = new HashMap();
@@ -38,6 +52,7 @@ public class PaperServiceImpl implements PaperService {
         return epm.insertExpertPaper((int)paper.get("paperId"),ownerId);
     }
 
+    @Transactional
     @Override
     public String download(int paperId, int userId) {
         Map paper = pm.selectPaperDetial(paperId);
@@ -52,16 +67,20 @@ public class PaperServiceImpl implements PaperService {
         return (String)paper.get("filepath");
     }
 
+    @Transactional(readOnly = true)
+    @Override
     public Map selectPaperByPid(int paperId){
         Map paper = pm.selectPaperDetial(paperId);
         return  paper;
     }
 
+    @Transactional
     @Override
     public int changePrice(int paperId, int price) {
         return pm.updatePaper(paperId,price,-1);
     }
 
+    @Transactional
     @Override
     public void relateAuthor(int paperId, int expertId){
 

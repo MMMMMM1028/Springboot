@@ -4,6 +4,28 @@ import java.util.List;
 import java.util.Map;
 
 public interface ExpertService {
+
+    /**
+     * 批量添加专家
+     * Map {"expertId":int
+     *      "field":string
+     *      "organization":string
+     *      "name":String
+     *      }
+     * @param list
+     * @return
+     */
+    int insertExpertByBatch(List<Map> list);
+
+    /**
+     * 批量添加专家专家
+     * Map {"expertId1":int
+     *      "expertId2":int
+     *      }
+     * @param list
+     * @return
+     */
+    int insertExpertExpertByBatch(List<Map> list);
     /**
      * 添加专家
      * @param field
@@ -36,47 +58,47 @@ public interface ExpertService {
      */
     int authorizeExpert(int expertId);
 
-    /**
-     * 显示专家所有参与的论文
-     * @param expertId
-     * @return 返回论文的基本信息（题目，作者，发表日期，下载次数），论文的ID，通过该ID链接到论文主页
-     */
-    List<Map> selectPaperByEid(int expertId);
+//    /**
+//     * 显示专家所有参与的论文
+//     * @param expertId
+//     * @return 返回论文的基本信息（题目，作者，发表日期，下载次数），论文的ID，通过该ID链接到论文主页
+//     */
+//    List<Map> selectPaperByEid(int expertId);
+
+//    /**
+//     * 显示专家拥有的论文
+//     * @param expertId
+//     * @return
+//     */
+//    List<Map> selectOwnPaperByEid(int expertId);
+
+//    /**
+//     * 根据专家ID，显示其所有的专利
+//     * @param expertId
+//     * @return
+//     */
+//    List<Map> selectPatentByEid(int expertId);
 
     /**
-     * 显示专家拥有的论文
+     * 根据专家ID，返回专家门户的所有内容
      * @param expertId
-     * @return
-     */
-    List<Map> selectOwnPaperByEid(int expertId);
-
-    /**
-     * 根据专家ID，显示其所有的专利
-     * @param expertId
-     * @return
-     */
-    List<Map> selectPatentByEid(int expertId);
-
-    /**
-     * 根据专家ID，返回专家的详细信息
-     * @param expertId
-     * @return
+     * @return 返回专家门户的所有内容
      */
     Map selectExpertByEid(int expertId);
 
     /**
-     * 根据用户Id，返回专家的详细信息
+     * 根据用户Id，返回专家管理页面的所有信息
      * @param userId
      * @return 基本信息，参与的论文列表，拥有的论文列表，拥有的专利列表
      */
     Map selectExpertByUid(int userId);
 
-    /**
-     * 返回合作关系
-     * @param expertId
-     * @return
-     */
-    List selectPartnership(int expertId);
+//    /**
+//     * 返回合作关系
+//     * @param expertId
+//     * @return
+//     */
+//    List selectPartnership(int expertId);
 
     /**
      * 更新合作关系，如果存在则合作次数++，否则添加合作次数
