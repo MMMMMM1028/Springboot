@@ -6,29 +6,29 @@
     <cache type="com.ManageServices.redis.RedisCache2"/>
 
     <insert id="insertByBatch">
-        INSERT INTO paper_(paperId, title, summary, keyword, author)  VALUES
+        INSERT INTO paper_(paperId, title, summary, keyword, author) INTO VALUES
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.paperId},#{item.title},#{item.summary},#{item.keyword},#{item.author})
+            (#{item.paperId},#{item.title},#{item.summary},#{item.keyword},#{item.title})
         </foreach>
     </insert>
 
-    <insert id="insertPaper" parameterType="java.util.Map" useGeneratedKeys="true" keyColumn="paperId" keyProperty="paperId">
+    <insert id="insertPaperByMap" parameterType="java.util.Map" useGeneratedKeys="true" keyColumn="paperId" keyProperty="paperId">
         INSERT
-        INTO paper_ (title,summary,keyword,author,filePath,publishedDate,ownerId)
-        VALUES (#{title},#{summary},#{keyword},#{author},#{filePath},#{publishedDate},#{ownerId})
+        INTO paper_ (title,summary,keyword,author,filePath,ownerId)
+        VALUES (#{title},#{summary},#{keyword},#{author},#{filePath},#{ownerId})
         <selectKey resultType ="int" keyProperty= "paperId" order= "AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey >
     </insert>
 
-    <insert id="insertPaper2" parameterType="java.util.Map">
-        INSERT
-        INTO paper_ (title,summary,keyword,author,filePath,publishedDate,ownerId)
-        VALUES (#{title},#{summary},#{keyword},#{author},#{filePath},#{publishedDate},#{ownerId})
-        <selectKey resultType ="int" keyProperty= "paperId" order= "AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey >
-    </insert>
+    <!--<insert id="insertPaper2" parameterType="java.util.Map">-->
+        <!--INSERT-->
+        <!--INTO paper_ (title,summary,keyword,author,filePath,publishedDate,ownerId)-->
+        <!--VALUES (#{title},#{summary},#{keyword},#{author},#{filePath},#{publishedDate},#{ownerId})-->
+        <!--<selectKey resultType ="int" keyProperty= "paperId" order= "AFTER">-->
+            <!--SELECT LAST_INSERT_ID()-->
+        <!--</selectKey >-->
+    <!--</insert>-->
 
     <update id="updatePaper">
         UPDATE paper_
@@ -51,36 +51,33 @@
         </where>
     </delete>
 
-    <select id="selectPaperLike" resultType="java.util.Map">
-        SELECT paperId,title,author,publishedDate,downloadCount
-        FROM paper_
-        <where>
-            <if test="fromDate != null and toDate != null">
-                AND publishedDate BETWEEN #{fromDate} and #{toDate}
-            </if>
-            <if test="title != null">
-                and title LIKE "%"#{title}"%"
-            </if>
-            <if test="summary != null">
-                and summary LIKE "%"#{summary}"%"
-            </if>
-            <if test="keyword != null">
-                and keyword LIKE "%"#{keyword}"%"
-            </if>
-            <if test="author != null">
-                and author LIKE "%"#{author}"%"
-            </if>
-        </where>
-    </select>
+    <!--<select id="selectPaperLike" resultType="java.util.Map">-->
+        <!--SELECT paperId,title,author,downloadCount-->
+        <!--FROM paper_-->
+        <!--<where>-->
+            <!--<if test="title != null">-->
+                <!--and title LIKE "%"#{title}"%"-->
+            <!--</if>-->
+            <!--<if test="summary != null">-->
+                <!--and summary LIKE "%"#{summary}"%"-->
+            <!--</if>-->
+            <!--<if test="keyword != null">-->
+                <!--and keyword LIKE "%"#{keyword}"%"-->
+            <!--</if>-->
+            <!--<if test="author != null">-->
+                <!--and author LIKE "%"#{author}"%"-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</select>-->
 
     <select id="selectPaperByEid" resultType="java.util.Map">
-        select expertId,title,author,publishedDate,downloadCount
+        select expertId,title,author,downloadCount
         FROM  paper_ p LEFT JOIN expert_paper_ ep ON p.paperId = ep.paperId
         WHERE ep.expertId = #{expertId}
     </select>
 
     <select id="selectOwnPaperByEid" resultType="java.util.Map">
-        SELECT expertId,title,author,publishedDate,downloadCount
+        SELECT expertId,title,author,downloadCount
         FROM paper_ p LEFT JOIN expert_ e ON p.ownerId = e.expertId
         WHERE expertId = #{expertId}
     </select>
@@ -94,7 +91,6 @@
         <result property="downloadCount" column="downloadCount" javaType="int"></result>
         <result property="price" column="price" javaType="int"></result>
         <result property="filepath" column="filepath" javaType="String"></result>
-        <result property="publishedDate" column="publishedDate" javaType="String"></result>
         <collection  property="authorIdList" javaType="java.util.List" ofType="java.util.Map">
             <id column="expertId" javaType="int" property="expertId"></id>
             <association property="expertName" column="name" javaType="String">

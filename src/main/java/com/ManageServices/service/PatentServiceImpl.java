@@ -2,6 +2,7 @@ package com.ManageServices.service;
 
 
 import com.ManageServices.dao.PatentMapper;
+import com.ManageServices.service_interface.PatentService;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

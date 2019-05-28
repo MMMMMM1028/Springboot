@@ -40,5 +40,11 @@ public interface ExpertPaperMapper {
      */
     int deleteExpertPaper(@Param("paperId")int paperId, @Param("expertId")int expertId);
 
+    /**
+     * 选择改论文所有专家的ID
+     * @param paperId
+     * @return
+     */
+    int[] selectAuthorIdByPid(@Param("paperId")int paperId);
 
 }

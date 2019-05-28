@@ -1,4 +1,4 @@
-package com.ManageServices.service;
+package com.ManageServices.service_interface;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +19,13 @@ public interface PaperService {
     int insertPaperByBatch(List<Map> list);
 
     /**
+     * 爬虫插入 论文，论文作者，作者之间关系，作者论文关系
+     * @param List
+     * @return
+     */
+    int insert(List<Map> List);
+
+    /**
      * 批量添加专家论文
      * Map {"expertId":int
      *      "paperId":string
@@ -28,18 +35,36 @@ public interface PaperService {
      */
     int insertExpertPaperByBatch(List<Map> list);
 
+//    /**
+//     * 添加论文
+//     * @param title
+//     * @param summary
+//     * @param keyword
+//     * @param author
+//     * @param filePath 全文链接（ownerId为-1）或下载链接（ownerId!=-1）
+//     * @param publishDate
+//     * @param ownerId
+//     */
+//    int uploadPaper(String title,String summary, String keyword, String author, String filePath,
+//                     String publishDate,int ownerId);
+
     /**
-     * 添加论文
-     * @param title
-     * @param summary
-     * @param keyword
-     * @param author
-     * @param filePath 全文链接（ownerId为-1）或下载链接（ownerId!=-1）
-     * @param publishDate
-     * @param ownerId
+     * Map{
+     *      "title":string
+     *      "summary":string
+     *      "keyword":string
+     *      "author":[
+     *                  {"name","organization","field"}
+     *                  {"name","organization","field"}
+     *                  ...
+     *              ]
+     *      "ownerId":int
+     *      "filepath":string
+     *      }
+     * @param paper
+     * @return
      */
-    int uploadPaper(String title,String summary, String keyword, String author, String filePath,
-                     String publishDate,int ownerId);
+    int uploadPaper(Map paper);
 
     /**
      * 显示论文表主页的所有内容
@@ -64,10 +89,5 @@ public interface PaperService {
      */
     int changePrice(int paperId, int price);
 
-    /**
-     * todo 关联作者
-     * @param paperId
-     * @param expertId
-     */
-    void relateAuthor(int paperId, int expertId);
+
 }

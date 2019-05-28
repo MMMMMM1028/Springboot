@@ -30,11 +30,10 @@
         </where>
     </delete>
 
-    <!--链接专家论文表和论文表-->
-    <select id="selectExpertPaper" resultType="java.util.Map">
-        SELECT p.title,p.author,p.publishedDate,p.downloadCount
-        FROM expert_paper_ ep  LEFT JOIN paper_ p ON ep.paperId = p.paperId
-        WHERE ep.expertId = #{expertId}
+    <select id="selectAuthorIdByPid" resultType="int">
+        SELECT expertId
+        FROM expert_paper_
+        WHERE paperId = #{paperId}
     </select>
 
 </mapper>

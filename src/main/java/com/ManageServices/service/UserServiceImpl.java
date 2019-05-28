@@ -2,6 +2,8 @@ package com.ManageServices.service;
 
 import com.ManageServices.dao.ExpertMapper;
 import com.ManageServices.dao.UserMapper;
+import com.ManageServices.service_interface.ExpertService;
+import com.ManageServices.service_interface.UserService;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,20 +22,13 @@ public class UserServiceImpl implements UserService{
     @Autowired
     ExpertService es;
     @Transactional(readOnly = true)
-    public int login(String userName,String pwd){
+    public Map login(String userName,String pwd){
         Map m = um.selectUserByUname(userName,pwd);
-        if(m == null){
-            return -1;
-        }else{
-            return (int)m.get("userId");
-        }
+        return m;
     }
+
     @Transactional(readOnly = true)
     public Map selectUserByUid(int userId){
-        Map expert = es.selectExpertByUid(userId);
-        if(expert != null){//是一名专家
-            return expert;
-        }
         Map user = um.selectUserDetial(userId);
         return user;
 

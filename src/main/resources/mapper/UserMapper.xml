@@ -39,7 +39,7 @@
     </select>
 
     <select id="selectUserByUname" resultType="java.util.Map">
-        SELECT userId
+        SELECT userId,expertId
         FROM user_
         WHERE userName = #{userName} and password = #{password}
     </select>

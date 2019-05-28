@@ -27,7 +27,7 @@
     <update id="updateCount">
         UPDATE expert_expert_
         SET count = count+1
-        WHERE (expertId1 = #{expertId1} AND expertId1 = #{expertId2})
+        WHERE (expertId1 = #{expertId1} AND expertId2 = #{expertId2})
         OR (expertId1 = #{expertId2} AND expertId2 = #{expertId1})
     </update>
 

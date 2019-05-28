@@ -1,7 +1,7 @@
 package com.ManageServices;
 
 import com.ManageServices.dao.*;
-import com.ManageServices.service.*;
+import com.ManageServices.service_interface.*;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -112,38 +112,41 @@ public class ManageServicesApplicationTests {
 	}
     @Test
 	public void testExpertPaperMapper(){
-        Map a = s.getMapper(ExpertMapper.class).selectExpertDetial(1);
+
 	}
 
 	@Test
 	public void testUserService(){
-		int reuslt = us.insertUser("testUser1", "pwd1","nickname1",null);
-		int userId = us.login("testUser1","pwd1");
-		us.changeIcon(userId,"aaa");
-		us.changeNickname(userId,"changenickname1");
-		us.resetPwd(userId,"pwd1");
-		us.updateBalance(userId,1);
-		Map user = us.selectUserByUid(userId);
+
 	}
 
 	@Test
     public void testExpertService(){
-//        int result = es.insertExpert("软件工程","北航","张三","163.com","110");
-        int result = es.applyAuthorize(15,12);
-        List l = es.selectApplyingExpert();
-        result = es.authorizeExpert(1);
-        Map expert = es.selectExpertByEid(1);
-        expert = es.selectExpertByUid(15);
+
     }
 
     @Test
     public void testPaperService(){
-	    ps.uploadPaper("测试论文1","摘要","关键词","作者","filepathtest1",
-                "2019-1-1",12);
-	    ps.changePrice(1,10);
-	    ps.download(1,15);
-	    ps.selectPaperByPid(1);
-
+        Map paper = new HashMap();
+        paper.put("title","title");
+        Map author = new HashMap();
+        author.put("name","张三");
+        Map author2 = new HashMap();
+        author2.put("name","李四");
+        author.put("field","");
+        author.put("organization","");
+        author2.put("field","");
+        author2.put("organization","");
+        List<Map> authorList = new ArrayList<Map>();
+        authorList.add(author);
+        authorList.add(author2);
+        paper.put("author",authorList);
+        List<Map> paperList = new ArrayList<Map>();
+        paperList.add(paper);
+        ps.insert(paperList);
+//        em.selectExpertIdByInf(author);
+//        pm.insertPaperByMap(paper);
+//        eem.updateCount(121,122);
 
     }
 
@@ -170,6 +173,6 @@ public class ManageServicesApplicationTests {
         List<Map> list = new ArrayList<Map>();
         list.add(expert);
 //        list.add(expert2);
-        em.insertByBatch(list);
+//        em.insertByBatch(list);
 	}
 }

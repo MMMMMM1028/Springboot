@@ -1,4 +1,4 @@
-package com.ManageServices.service;
+package com.ManageServices.service_interface;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -7,15 +7,16 @@ import java.util.Map;
 public interface UserService {
     /**
      * 登陆
-     * todo 认证过的专家登陆返回？
      * @param userName
      * @param pwd
-     * @return
+     * @return Map{userId，expertId}
+     *      若userId对应的value为null则说明登陆失败
+     *      若expertId对应的value为null则说明不是专家
      */
-    int login(String userName, String pwd);
+    Map login(String userName, String pwd);
 
     /**
-     * 用户基本信息,如果是专家，同时返回专家的信息
+     * 返回用户基本信息，是用户不是专家调用
      * @param uid
      * @return 返回Map
      */

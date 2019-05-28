@@ -12,6 +12,16 @@
         </foreach>
     </insert>
 
+    <insert id="insertExpertByMap" parameterType="java.util.Map" useGeneratedKeys="true" keyColumn="expertId" keyProperty="expertId">
+        INSERT
+        INTO expert_(field,organization,name)
+        VALUES (#{field},#{organization},#{name})
+        <selectKey resultType ="int" keyProperty= "expertId" order= "AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey >
+    </insert>
+
+
     <insert id="insertExpert">
         INSERT
         INTO expert_(field,organization,name,tel,mail)
@@ -80,6 +90,13 @@
         SELECT *
         FROM expert_
         WHERE expertId = #{expertId}
+    </select>
+
+    <select id="selectExpertIdByInf" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT expertId
+        FROM expert_
+        WHERE name = #{name} and field = #{field} and organization = #{organization}
+
     </select>
 
     <!--<select id="selectPaperByEId" resultType="java.util.Map">-->

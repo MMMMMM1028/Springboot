@@ -3,17 +3,19 @@ package com.ManageServices.service;
 import com.ManageServices.dao.OrderMapper;
 import com.ManageServices.dao.PaperMapper;
 import com.ManageServices.dao.UserMapper;
+import com.ManageServices.service_interface.OrderService;
+import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Paper;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Date;
 
-@Service
+@Service(interfaceClass = OrderService.class)
+@Component
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper om;

@@ -14,6 +14,14 @@ public interface ExpertMapper {
     int insertByBatch(List<Map> list);
 
     /**
+     * 插入通过map，因为需要返回自增主键
+     * @param expert
+     * @return 自增主键
+     */
+    int insertExpertByMap(Map expert);
+
+
+    /**
      * 插入
      * @param field 领域
      * @param organization 组织
@@ -82,6 +90,8 @@ public interface ExpertMapper {
      * @return Map key为列名
      */
     Map selectExpertDetial(@Param("expertId")int expertId);
+
+    Map selectExpertIdByInf(Map expertInfMap);
 
 //    /**
 //     *  放在论文表中

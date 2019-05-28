@@ -1,15 +1,18 @@
 package com.ManageServices.service;
 
 import com.ManageServices.dao.*;
+import com.ManageServices.service_interface.ExpertService;
+import com.alibaba.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 
-@Service
+@Service(interfaceClass = ExpertService.class)
+@Component
 public class ExpertServiceImpl implements ExpertService{
     @Autowired
     ExpertMapper em;
@@ -19,7 +22,8 @@ public class ExpertServiceImpl implements ExpertService{
     ExpertExpertMapper eem;
     @Autowired
     PatentMapper patentm;
-
+    @Autowired
+    ExpertPaperMapper epm;
 
     @Override
     public int insertExpertByBatch(List<Map> list) {
@@ -75,7 +79,8 @@ public class ExpertServiceImpl implements ExpertService{
 
     @Override
     @Transactional(readOnly = true)
-    public Map selectExpertByUid(int userId) {
+    public Map selectExpertInfByEid(int userId) {
+        //todo 完整显示
         Map expert = em.selectByUid(userId);
         if (expert == null){
             return null;
@@ -112,18 +117,15 @@ public class ExpertServiceImpl implements ExpertService{
         return em.updateExpert(expertId,null,null,null,null,null,-1,1,-1);
     }
 
-    @Override
-    @Transactional
-    public int updatePartnership(int expertId1, int expertId2) {
-        String isExisted = eem.isExisted(expertId1,expertId2);
-        if(isExisted == null){//专家关系不存在，则插入
-            return eem.insertExpertExpert(expertId1,expertId2);
-        }else{
-            return eem.updateCount(expertId1,expertId2);
-        }
-    }
+//    private int updatePartnership(int expertId1, int expertId2) {
+//        String isExisted = eem.isExisted(expertId1,expertId2);
+//        if(isExisted == null){//专家关系不存在，则插入
+//            return eem.insertExpertExpert(expertId1,expertId2);
+//        }else{
+//            return eem.updateCount(expertId1,expertId2);
+//        }
+//    }
 
-    @Transactional(readOnly = true)
     private List<Map> selectPatentByEid(int expertId) {
         List<Map> patentList = patentm.selectPatent(null,expertId,null);
         return patentList;
@@ -135,5 +137,22 @@ public class ExpertServiceImpl implements ExpertService{
         List<Map> expertList = em.selectExpertByName(name);
         return expertList;
     }
+
+
+    @Override
+    @Transactional
+    public int claimAndRelate(int expertId, int paperId) {
+        //添加论文专家关系
+        epm.insertExpertPaper(paperId,expertId);
+        //获得论文的所有作者的id
+        int[] authorIdList = epm.selectAuthorIdByPid(paperId);
+        int len = authorIdList.length;
+        for (int i = 0; i<len; i++){
+            //遍历添加专家关系
+//            DaoUtils(expertId,authorIdList[i]);
+        }
+        return 0;
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.ManageServices.service;
-
-public class DAOServiceImpl  {
-}
+//package com.ManageServices.service;
+//
+//public class DAOServiceImpl  {
+//}
