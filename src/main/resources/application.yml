@@ -4,6 +4,23 @@ spring:
     url: jdbc:mysql://10.128.3.233/paper?characterEncoding=UTF-8&serverTimezone=GMT%2B8
     username: admin
     password: admin
+    type: com.alibaba.druid.pool.DruidDataSource
+#    连接池配置信息
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    timeBetweenEvictionRunsMillis: 6000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUA
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall
+    connectionProperties=druid.stat.mergeSql: true;druid.stat.slowSqlMillis=5000
+
+
 
   redis:
     host: 10.128.3.233
