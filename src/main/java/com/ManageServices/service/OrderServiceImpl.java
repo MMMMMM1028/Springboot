@@ -1,5 +1,6 @@
 package com.ManageServices.service;
 
+import com.ManageServices.dao.ExpertMapper;
 import com.ManageServices.dao.OrderMapper;
 import com.ManageServices.dao.PaperMapper;
 import com.ManageServices.dao.UserMapper;
@@ -23,7 +24,8 @@ public class OrderServiceImpl implements OrderService {
     PaperMapper pm;
     @Autowired
     UserMapper um;
-
+    @Autowired
+    ExpertMapper em;
     @Override
     @Transactional
     public int purchasePaper(int userId, int paperId) {
@@ -31,21 +33,36 @@ public class OrderServiceImpl implements OrderService {
         Map user = um.selectUserDetial(userId);
         int price = (int)paper.get("price");
         int balance = (int)user.get("balance");
-        if(price > balance){
+        if(price > balance){//余额不足
             return -1;
         }else{
-            um.updateUser(userId,null,null,null,null,
-                    null,-price);
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String date = df.format(new Date());
             om.insertOrder(userId,paperId,date,price);
+            int ownerId = (int) paper.get("ownerId");
+            em.updateExpert(ownerId,null,null,null,null,null,
+                    price,-1);
+            um.updateUser(userId,null,null,null,null,
+                    null,-price);
         }
         return 1;
     }
+
+
     @Transactional(readOnly = true)
     @Override
     public List<Map> selectOrderList(int userId, String fromDate, String toDate) {
         List<Map> orderList = om.selectOrder(userId,-1,fromDate,toDate);
-        return null;
+        return orderList;
     }
+
+//    @Transactional
+//    public void testTransaction(){
+////        em.updateExpert(1,null,null,null,null,null,
+////                5,-1);
+//        um.insertUser("user2","123456",null,null);
+//        int i = 5/0;
+////        um.updateUser(1,null,null,null,null,
+////                null,-5);
+//    }
 }

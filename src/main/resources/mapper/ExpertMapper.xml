@@ -42,7 +42,7 @@
                 organization = #{organization},
             </if>
             <if test="income != -1">
-                income = #{income},
+                income = income + #{income},
             </if>
             <if test="name != null">
                 name = #{name},
@@ -53,9 +53,9 @@
             <if test="isPassed != -1">
                 isPassed = #{isPassed},
             </if>
-            <if test="userId != -1">
-                userId = #{userId}
-            </if>
+            <!--<if test="userId != -1">-->
+                <!--userId = #{userId}-->
+            <!--</if>-->
         </set>
         WHERE expertId = #{expertId}
     </update>
@@ -65,9 +65,10 @@
         <!--SET userId = #{userId}-->
     <!--</update>-->
 
-    <select id="selectByUid" resultType="java.util.Map">
-        select e.*,u.nickname,u.balance,u.iconPath,u.mail from expert_ e LEFT JOIN user_ u on e.expertId = u.expertId
-        WHERE userId = #{userId}
+    <select id="selectExpertPersonalInf" resultType="java.util.Map">
+        select e.*,u.nickname,u.balance,u.iconPath,u.mail
+        from expert_ e LEFT JOIN user_ u on e.expertId = u.expertId
+        WHERE e.expertId = #{expertId}
     </select>
 
     <select id="selectApplyingExpert" resultType="java.util.Map">
@@ -85,7 +86,11 @@
         FROM expert_
         WHERE name LIKE "%"#{expertName}"%"
     </select>
-
+    <select id="selectExpertBasic" resultType="java.util.Map">
+        SELECT expertId,field,organization,name
+        FROM expert_
+        WHERE expertId = #{expertId}
+    </select>
     <select id="selectExpertDetial" resultType="java.util.Map">
         SELECT *
         FROM expert_
@@ -93,12 +98,17 @@
     </select>
 
     <select id="selectExpertIdByInf" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT expertId
+        SELECT expertId,isPassed
         FROM expert_
         WHERE name = #{name} and field = #{field} and organization = #{organization}
 
     </select>
 
+    <select id="selectExpertIsPassed" resultType="int">
+        SELECT isPassed
+        FROM expert_
+        WHERE expertId = #{expertId}
+    </select>
     <!--<select id="selectPaperByEId" resultType="java.util.Map">-->
         <!--select distinct title,author,publishedDate,downloadCount,paperId-->
         <!--FROM expert_ e-->

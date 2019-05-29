@@ -35,18 +35,6 @@ public interface PaperService {
      */
     int insertExpertPaperByBatch(List<Map> list);
 
-//    /**
-//     * 添加论文
-//     * @param title
-//     * @param summary
-//     * @param keyword
-//     * @param author
-//     * @param filePath 全文链接（ownerId为-1）或下载链接（ownerId!=-1）
-//     * @param publishDate
-//     * @param ownerId
-//     */
-//    int uploadPaper(String title,String summary, String keyword, String author, String filePath,
-//                     String publishDate,int ownerId);
 
     /**
      * Map{
@@ -59,7 +47,7 @@ public interface PaperService {
      *                  ...
      *              ]
      *      "ownerId":int
-     *      "filepath":string
+     *      "filepath":string 爬取的数据该字段为链接，上传的论文该字段为文件路径，通过ownerID是否非空判断类型
      *      }
      * @param paper
      * @return
@@ -71,8 +59,20 @@ public interface PaperService {
      * @param paperId
      * @return Map
      * filepath为全文链接或下载链接，根据ownerId判断，是下载链接则需要隐藏，全文链接显示
+     * 每条paperItem(参与论文列表，拥有论文列表），返回的格式为
+     * Map{
+     *     "title"
+     *     "summary"
+     *     "keyword"
+     *     "downloadCount"
+     *     "authorList":[
+     *          {"name","expertId"}
+     *          {"name","expertId"}
+     *          ...
+     *      ]
+     * }
      */
-    Map selectPaperByPid(int paperId);
+    Map selectPaperHomeByPid(int paperId);
 
     /**
      * 下载论文，

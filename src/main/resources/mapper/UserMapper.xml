@@ -23,8 +23,14 @@
             <if test="nickName != null"> nickname = #{nickName},</if>
             <if test="mail != null"> mail = #{mail},</if>
             <if test="iconPath != null"> iconPath = #{iconPath},</if>
-            <if test="balance != -1"> balance = balance + #{balance}</if>
+            <if test="balance != 0"> balance = balance + #{balance}</if>
         </set>
+        WHERE userId = #{userId}
+    </update>
+
+    <update id="bindExpert">
+        UPDATE user_
+        SET expertId = #{expertId}
         WHERE userId = #{userId}
     </update>
 
@@ -43,6 +49,7 @@
         FROM user_
         WHERE userName = #{userName} and password = #{password}
     </select>
+
 
     <insert id="insertId">
         INSERT into user_(userId) VALUES (#{userId})

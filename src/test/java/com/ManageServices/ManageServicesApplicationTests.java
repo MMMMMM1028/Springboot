@@ -117,37 +117,37 @@ public class ManageServicesApplicationTests {
 
 	@Test
 	public void testUserService(){
-
+	    String uname = "testuser1";
+	    String pwd = "123456";
+	    int insert = us.insertUser("testuser1","123456","user1",null);
+	    Map login = us.login(uname,pwd);
+	    int userId = (int) login.get("userId");
+	    Map user = us.selectUserPersonalInf(userId);
+	    String field = "系统工程 地图制图学与地理信息工程";
+	    String name = "仰燕兰";
+	    String org = "东南大学自动化学院";
+	    int result = us.beExpert(userId,field,org,name,null,null);
 	}
 
 	@Test
     public void testExpertService(){
-
+        String uname = "testuser1";
+        String pwd = "123456";
+        Map login = us.login(uname,pwd);
+        int userId = (int) login.get("userId");
+        int expertId = (int) login.get("expertId");
+        Map expertInf = es.selectExpertPersonalInf(expertId);
+        Map expertHome = es.selectExpertHomeByEid(expertId);
+//        pm.selectPaperByEid(1);
     }
+
 
     @Test
     public void testPaperService(){
-        Map paper = new HashMap();
-        paper.put("title","title");
-        Map author = new HashMap();
-        author.put("name","张三");
-        Map author2 = new HashMap();
-        author2.put("name","李四");
-        author.put("field","");
-        author.put("organization","");
-        author2.put("field","");
-        author2.put("organization","");
-        List<Map> authorList = new ArrayList<Map>();
-        authorList.add(author);
-        authorList.add(author2);
-        paper.put("author",authorList);
-        List<Map> paperList = new ArrayList<Map>();
-        paperList.add(paper);
-        ps.insert(paperList);
-//        em.selectExpertIdByInf(author);
-//        pm.insertPaperByMap(paper);
-//        eem.updateCount(121,122);
-
+	    us.updateBalance(1,10);
+        ps.changePrice(18,5);
+        os.purchasePaper(1,18);
+        ps.download(18,1);
     }
 
     @Test
@@ -175,4 +175,9 @@ public class ManageServicesApplicationTests {
 //        list.add(expert2);
 //        em.insertByBatch(list);
 	}
+	@Test
+	public void testTransaction(){
+//		os.testTransaction();
+	}
+
 }

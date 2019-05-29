@@ -70,16 +70,40 @@
         <!--</where>-->
     <!--</select>-->
 
-    <select id="selectPaperByEid" resultType="java.util.Map">
-        select expertId,title,author,downloadCount
-        FROM  paper_ p LEFT JOIN expert_paper_ ep ON p.paperId = ep.paperId
-        WHERE ep.expertId = #{expertId}
+    <resultMap id="paperBasic" type="java.util.Map">
+        <id property="paperId" column="paperId" javaType="int"></id>
+        <result property="title" column="title" javaType="String"></result>
+        <result property="summary" column="summary" javaType="String"></result>
+        <result property="keyword" column="keyword" javaType="String"></result>
+        <result property="downloadCount" column="downloadCount" javaType="int"></result>
+        <collection  property="authorList" javaType="java.util.List" ofType="java.util.Map">
+            <id column="expertId" javaType="int" property="expertId"></id>
+            <result property="name" column="name" javaType="String"></result>
+            <!--<association property="expertName" column="name" javaType="String">-->
+            <!--</association>-->
+        </collection>
+    </resultMap>
+    <!--专家参与的所有论文-->
+    <select id="selectPaperByEid" resultMap="paperBasic">
+        SELECT p.*,ep.expertId,e.name
+        FROM paper_ p
+          LEFT JOIN expert_paper_ ep ON p.paperId = ep.paperId
+          LEFT JOIN expert_ e ON ep.expertId = e.expertId
+        WHERE p.paperId in
+          (
+            SELECT paperId from expert_paper_ ep2 WHERE ep2.expertId = #{expertId}
+          )
     </select>
 
-    <select id="selectOwnPaperByEid" resultType="java.util.Map">
-        SELECT expertId,title,author,downloadCount
-        FROM paper_ p LEFT JOIN expert_ e ON p.ownerId = e.expertId
-        WHERE expertId = #{expertId}
+    <select id="selectOwnPaperByEid" resultMap="paperBasic">
+        SELECT p.*,ep.expertId,e.name
+        FROM paper_ p
+          LEFT JOIN expert_paper_ ep ON p.paperId = ep.paperId
+          LEFT JOIN expert_ e ON ep.expertId = e.expertId
+        WHERE p.paperId in
+          (
+            SELECT paperId from paper_ p2 WHERE p2.ownerId = #{expertId}
+          )
     </select>
 
     <resultMap id="paperDetial" type="java.util.Map">
@@ -87,11 +111,11 @@
         <result property="title" column="title" javaType="String"></result>
         <result property="summary" column="summary" javaType="String"></result>
         <result property="keyword" column="keyword" javaType="String"></result>
-        <result property="author" column="author" javaType="String"></result>
         <result property="downloadCount" column="downloadCount" javaType="int"></result>
         <result property="price" column="price" javaType="int"></result>
         <result property="filepath" column="filepath" javaType="String"></result>
-        <collection  property="authorIdList" javaType="java.util.List" ofType="java.util.Map">
+        <result property="ownerId" column="ownerId" javaType="int"></result>
+        <collection  property="authorList" javaType="java.util.List" ofType="java.util.Map">
             <id column="expertId" javaType="int" property="expertId"></id>
             <association property="expertName" column="name" javaType="String">
             </association>

@@ -10,7 +10,7 @@ public interface UserService {
      * @param userName
      * @param pwd
      * @return Map{userId，expertId}
-     *      若userId对应的value为null则说明登陆失败
+     *      若返回null代表登陆失败
      *      若expertId对应的value为null则说明不是专家
      */
     Map login(String userName, String pwd);
@@ -20,7 +20,7 @@ public interface UserService {
      * @param uid
      * @return 返回Map
      */
-    Map selectUserByUid(int uid);
+    Map selectUserPersonalInf(int uid);
 
     /**
      * 创建新用户
@@ -66,21 +66,8 @@ public interface UserService {
 
 
     /**
-     * todo
-     * 申请成为专家
-     * @param userId
-     * @param file
-     * @param organization
-     * @param name
-     * @param tel
-     * @param mail
-     * @return
-     */
-    int beExpert(int userId, String file, String organization, String name, String tel, String mail);
-
-    /**
-     * todo
-     * 认证已存在的专家
+     * 申请成为专家，只能通过申请成为专家来认领已经存在的专家主页，且不会有任何提示该专家主页已经存在
+     * 显示给用户的只有一种成为专家的方法
      * @param userId
      * @param field
      * @param organization
@@ -88,7 +75,9 @@ public interface UserService {
      * @param tel
      * @param mail
      * @return
+     * -1 代表申请失败，该专家信息已经存在或正在审核
      */
-    int authorizeExpert(int userId, String field, String organization, String name, String tel, String mail);
+    int beExpert(int userId, String field, String organization, String name, String tel, String mail);
+
 
 }

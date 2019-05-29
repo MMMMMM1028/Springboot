@@ -35,12 +35,6 @@ public class ExpertServiceImpl implements ExpertService{
         return eem.insertByBatch(list);
     }
 
-    @Override
-    @Transactional
-    public int insertExpert(String field, String organization, String name, String mail, String tel) {
-        return em.insertExpert(field,organization,name,tel,mail);
-    }
-
 
     private List selectPartnership(int expertId) {
         List<Map> result = eem.selectExpertExpert(expertId);
@@ -66,8 +60,8 @@ public class ExpertServiceImpl implements ExpertService{
 
     @Override
     @Transactional(readOnly = true)
-    public Map selectExpertByEid(int expertId) {
-        Map result = em.selectExpertDetial(expertId);
+    public Map selectExpertHomeByEid(int expertId) {
+        Map result = em.selectExpertBasic(expertId);
         List<Map> paperList = selectPaperByEid(expertId);
         List<Map> patentList = selectPatentByEid(expertId);
         List<Map> relationList = selectPartnership(expertId);
@@ -79,18 +73,8 @@ public class ExpertServiceImpl implements ExpertService{
 
     @Override
     @Transactional(readOnly = true)
-    public Map selectExpertInfByEid(int userId) {
-        //todo 完整显示
-        Map expert = em.selectByUid(userId);
-        if (expert == null){
-            return null;
-        }else{
-            int isPassed = (int) expert.get("isPassed");
-            if (isPassed != 1){
-                return null;
-            }
-        }
-        int expertId = (int)expert.get("expertId");
+    public Map selectExpertPersonalInf(int expertId) {
+        Map expert = em.selectExpertPersonalInf(expertId);
         List<Map> ownPaperList = selectOwnPaperByEid(expertId);
         List<Map> paperList = selectPaperByEid(expertId);
         List<Map> patentList = selectPatentByEid(expertId);
@@ -100,31 +84,13 @@ public class ExpertServiceImpl implements ExpertService{
         return expert;
     }
 
-    @Override
-    @Transactional
-    public int applyAuthorize(int userId, int expertId) {
-        Map expert = em.selectExpertDetial(expertId);
-        int isPassed = (int)expert.get("isPassed");
-        if(isPassed != -1){
-            return -1;
-        }
-        return em.updateExpert(expertId,null,null,null,null,null,-1,0,userId);
-    }
 
     @Override
     @Transactional
     public int authorizeExpert(int expertId) {
-        return em.updateExpert(expertId,null,null,null,null,null,-1,1,-1);
+        return 0;
     }
 
-//    private int updatePartnership(int expertId1, int expertId2) {
-//        String isExisted = eem.isExisted(expertId1,expertId2);
-//        if(isExisted == null){//专家关系不存在，则插入
-//            return eem.insertExpertExpert(expertId1,expertId2);
-//        }else{
-//            return eem.updateCount(expertId1,expertId2);
-//        }
-//    }
 
     private List<Map> selectPatentByEid(int expertId) {
         List<Map> patentList = patentm.selectPatent(null,expertId,null);
@@ -137,22 +103,5 @@ public class ExpertServiceImpl implements ExpertService{
         List<Map> expertList = em.selectExpertByName(name);
         return expertList;
     }
-
-
-    @Override
-    @Transactional
-    public int claimAndRelate(int expertId, int paperId) {
-        //添加论文专家关系
-        epm.insertExpertPaper(paperId,expertId);
-        //获得论文的所有作者的id
-        int[] authorIdList = epm.selectAuthorIdByPid(paperId);
-        int len = authorIdList.length;
-        for (int i = 0; i<len; i++){
-            //遍历添加专家关系
-//            DaoUtils(expertId,authorIdList[i]);
-        }
-        return 0;
-    }
-
 
 }

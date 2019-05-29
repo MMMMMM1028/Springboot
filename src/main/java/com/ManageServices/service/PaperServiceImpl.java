@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +27,7 @@ public class PaperServiceImpl implements PaperService {
     ExpertExpertMapper eem;
 
     @Override
+    @Transactional
     public int insert(List<Map> list){
         for (Map map : list){
             upload(map);
@@ -90,6 +90,8 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
+    @Transactional
+
     public int uploadPaper(Map paper) {
         upload(paper);
         return 0;
@@ -106,22 +108,6 @@ public class PaperServiceImpl implements PaperService {
         return epm.insertByBatch(list);
     }
 
-//    @Transactional
-//    @Override
-//    public int uploadPaper(String title, String summary, String keyword, String author, String filePath, String publishDate, int ownerId) {
-//        Map paper = new HashMap();
-//        paper.put("title",title);
-//        paper.put("summary",summary);
-//        paper.put("keyword",keyword);
-//        paper.put("author",author);
-//        paper.put("filePath",filePath);
-//        paper.put("publishDate",publishDate);
-//        paper.put("ownerId",ownerId);
-////        pm.insertPaper(paperId,title,summary,keyword,author,filePath,publishDate,ownerId);
-//        pm.insertPaperByMap(paper);
-//        //插入专家论文关系表
-//        return epm.insertExpertPaper((int)paper.get("paperId"),ownerId);
-//    }
 
     @Transactional
     @Override
@@ -129,18 +115,21 @@ public class PaperServiceImpl implements PaperService {
         Map paper = pm.selectPaperDetial(paperId);
         int price = (int)paper.get("price");
         if(price != 0){
+            //是否购买过
             List<Map> order = om.selectOrder(userId,paperId,null,null);
             if(order == null){
+                //没有买过，不允许下载
                 return null;
             }
         }
+        //允许下载，下载次数++ 返回下载路径
         pm.updatePaper(paperId,-1,1);
         return (String)paper.get("filepath");
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Map selectPaperByPid(int paperId){
+    public Map selectPaperHomeByPid(int paperId){
         Map paper = pm.selectPaperDetial(paperId);
         return  paper;
     }
@@ -150,7 +139,5 @@ public class PaperServiceImpl implements PaperService {
     public int changePrice(int paperId, int price) {
         return pm.updatePaper(paperId,price,-1);
     }
-
-
 
 }

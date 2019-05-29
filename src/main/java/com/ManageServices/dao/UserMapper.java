@@ -41,6 +41,14 @@ public interface UserMapper {
                @Param("nickName")String nickName,@Param("mail")String mail,@Param("iconPath")String iconPath,
                @Param("balance")int balance);
 
+    /**
+     * 绑定专家，未通过审核，记录申请记录
+     * @param expertId
+     * @param userId
+     * @return
+     */
+    int bindExpert(@Param("userId")int userId, @Param("expertId")int expertId);
+
     int insertId(@Param("userId")int userId);
     /**
      * 删除

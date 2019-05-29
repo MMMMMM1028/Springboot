@@ -15,7 +15,7 @@ public interface OrderMapper {
      * @param amount 总计
      * @return 是否成功
      */
-    int insertOrder(@Param("expertId")int userId, @Param("paperId")int paperId, @Param("date")String orderDate,
+    int insertOrder(@Param("userId")int userId, @Param("paperId")int paperId, @Param("orderDate")String orderDate,
                @Param("amount")int amount);
 //    int update(@Param("userId")int userId, @Param("paperId")int paperId,);订单类不允许修改
 //    int delete();
@@ -34,4 +34,5 @@ public interface OrderMapper {
      */
     List<Map> selectOrder(@Param("userId")int userId, @Param("paperId")int paperId,
                      @Param("fromDate")String fromDate, @Param("toDate")String toDate);
+
 }

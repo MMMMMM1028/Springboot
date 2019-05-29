@@ -42,12 +42,11 @@ public interface ExpertMapper {
      * @param name 姓名
      * @param tel 电话
      * @param isPassed -1为认证，0正在审核，1已认证
-     * @param userId 通过审核认证成功，与userId绑定，
      * @return 是否成功
      */
     int updateExpert(@Param("expertId")int expertId,@Param("field")String field, @Param("organization")String organization,
                      @Param("name")String name, @Param("tel")String tel, @Param("mail")String mail,
-                     @Param("income")int income, @Param("isPassed")int isPassed, @Param("userId")int userId);
+                     @Param("income")int income, @Param("isPassed")int isPassed);
 
 //    /**
 //     * 绑定用户与专家
@@ -59,11 +58,24 @@ public interface ExpertMapper {
 
     /**
      * 根据userId返回，专家全部个人信息
-     * @param userId
+     * @param expertId
      * @return
      */
-    Map selectByUid(@Param("userId")int userId);
+    Map selectExpertPersonalInf(@Param("expertId")int expertId);
 
+    /**
+     * 查看该专家审核状态
+     * @param expertId
+     * @return
+     */
+    int selectExpertIsPassed(@Param("expertId")int expertId);
+
+    /**
+     * 返回专家基本信息用于显示在专家门户
+     * @param expertId
+     * @return
+     */
+    Map selectExpertBasic(@Param("expertId")int expertId);
     /**
      * todo
      * 查看所有申请中的专家 isPassed=0

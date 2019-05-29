@@ -38,11 +38,11 @@
 
     <select id="selectExpertExpert" resultType="java.util.Map">
         SELECT expertId2 , name,count
-        FROM expert_expert_ LEFT JOIN expert_ e ON expert_expert_.expertId1 = e.expertId
+        FROM expert_expert_ LEFT JOIN expert_ e ON expert_expert_.expertId2 = e.expertId
         WHERE expertId1 = #{expertId}
         UNION
         SELECT expertId1, name,count
-        FROM expert_expert_ LEFT  JOIN expert_ e ON expert_expert_.expertId2 = e.expertId
+        FROM expert_expert_ LEFT  JOIN expert_ e ON expert_expert_.expertId1 = e.expertId
         WHERE expertId2 = #{expertId}
     </select>
 

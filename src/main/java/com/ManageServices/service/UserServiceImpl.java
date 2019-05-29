@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -24,11 +25,22 @@ public class UserServiceImpl implements UserService{
     @Transactional(readOnly = true)
     public Map login(String userName,String pwd){
         Map m = um.selectUserByUname(userName,pwd);
+        if (m == null){//登陆失败
+            return null;
+        }
+        if (m.get("expertId") != null){//申请认证过专家，检查其是否通过认证
+            int expertId = (int) m.get("expertId");
+            int isPassed = em.selectExpertIsPassed(expertId);
+            if (isPassed != 1){
+                m.put("expertId",null);
+            }
+        }
         return m;
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public Map selectUserByUid(int userId){
+    public Map selectUserPersonalInf(int userId){
         Map user = um.selectUserDetial(userId);
         return user;
 
@@ -46,17 +58,17 @@ public class UserServiceImpl implements UserService{
     }
     @Transactional
     public int resetPwd(int userId, String pwd){
-        return um.updateUser(userId,null,pwd,null,null,null,-1);
+        return um.updateUser(userId,null,pwd,null,null,null,0);
     }
 
     @Transactional
     public int changeIcon(int userId, String iconPath){
-        return um.updateUser(userId,null,null,null,null,iconPath,-1);
+        return um.updateUser(userId,null,null,null,null,iconPath,0);
     }
 
     @Transactional
     public int changeNickname(int userId, String nickname){
-        return um.updateUser(userId,null,null,nickname,null,null,-1);
+        return um.updateUser(userId,null,null,nickname,null,null,0);
     }
 
     @Transactional
@@ -67,13 +79,30 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public int beExpert(int userId, String field, String organization, String name, String tel, String mail) {
-//        em.insertExpert(field, organization, name, tel, mail);
-        return 0;
+        Map expert = new HashMap();
+        expert.put("field",field);
+        expert.put("name",name);
+        expert.put("organization",organization);
+        Map e = em.selectExpertIdByInf(expert);
+        if(e == null){// 成为新的专家，即栈内没有该专家的门户
+            em.insertExpertByMap(expert);
+            int expertId = (int) expert.get("expertId");
+            um.bindExpert(userId,expertId);
+            //设置isPassed为0代表审核中
+            //-1未被认领
+            //1通过
+            return em.updateExpert(expertId,field,organization,name,tel,mail,-1, 0);
+        }else{//已有专家门户
+            int expertId = (int) e.get("expertId");
+            int isPassed = (int) e.get("isPassed");
+            if (isPassed != -1){//该专家正在审核或已经被认领
+                return -1;
+            }else{
+                //完善专家信息
+                um.bindExpert(userId,expertId);
+                return em.updateExpert(expertId,field,organization,name,tel,mail,-1, 0);
+            }
+        }
     }
 
-    @Transactional
-    @Override
-    public int authorizeExpert(int userId, String field, String organization, String name, String tel, String mail) {
-        return 0;
-    }
 }
