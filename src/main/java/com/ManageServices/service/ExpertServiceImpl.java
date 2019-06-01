@@ -25,15 +25,15 @@ public class ExpertServiceImpl implements ExpertService{
     @Autowired
     ExpertPaperMapper epm;
 
-    @Override
-    public int insertExpertByBatch(List<Map> list) {
-        return em.insertByBatch(list);
-    }
-
-    @Override
-    public int insertExpertExpertByBatch(List<Map> list) {
-        return eem.insertByBatch(list);
-    }
+//    @Override
+//    public int insertExpertByBatch(List<Map> list) {
+//        return em.insertByBatch(list);
+//    }
+//
+//    @Override
+//    public int insertExpertExpertByBatch(List<Map> list) {
+//        return eem.insertByBatch(list);
+//    }
 
 
     private List selectPartnership(int expertId) {
@@ -88,7 +88,9 @@ public class ExpertServiceImpl implements ExpertService{
     @Override
     @Transactional
     public int authorizeExpert(int expertId) {
-        return 0;
+        int result = em.updateExpert(expertId,null,null,null,null,null,
+                -1,1);
+        return result;
     }
 
 

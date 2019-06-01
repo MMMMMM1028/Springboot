@@ -72,7 +72,7 @@
     </select>
 
     <select id="selectApplyingExpert" resultType="java.util.Map">
-        SELECT * FROM expert_
+        SELECT p.expertId,u.userId,name,nickname FROM expert_ p LEFT JOIN user_ u on p.expertId = u.expertId
         WHERE isPassed = 0
     </select>
 

@@ -112,6 +112,8 @@ public class ManageServicesApplicationTests {
 	}
     @Test
 	public void testExpertPaperMapper(){
+		Map reuslt = pm.selectPaperDetial(18);
+		Map result2 = ps.selectPaperHomeByPid(18);
 
 	}
 

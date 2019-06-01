@@ -5,35 +5,35 @@ import java.util.Map;
 
 public interface PaperService {
 
-    /**
-     * 批量添加论文
-     * Map {"paperId":int
-     *      "title":string
-     *      "summary":string
-     *      "keyword":String
-     *      "author":string
-     *      }
-     * @param list
-     * @return
-     */
-    int insertPaperByBatch(List<Map> list);
+//    /**
+//     * 批量添加论文
+//     * Map {"paperId":int
+//     *      "title":string
+//     *      "summary":string
+//     *      "keyword":String
+//     *      "author":string
+//     *      }
+//     * @param list
+//     * @return
+//     */
+//    int insertPaperByBatch(List<Map> list);
 
     /**
      * 爬虫插入 论文，论文作者，作者之间关系，作者论文关系
      * @param List
-     * @return
+     * @return 插入的论文Id
      */
-    int insert(List<Map> List);
-
-    /**
-     * 批量添加专家论文
-     * Map {"expertId":int
-     *      "paperId":string
-     *      }
-     * @param list
-     * @return
-     */
-    int insertExpertPaperByBatch(List<Map> list);
+    List insert(List<Map> List);
+//
+//    /**
+//     * 批量添加专家论文
+//     * Map {"expertId":int
+//     *      "paperId":string
+//     *      }
+//     * @param list
+//     * @return
+//     */
+//    int insertExpertPaperByBatch(List<Map> list);
 
 
     /**

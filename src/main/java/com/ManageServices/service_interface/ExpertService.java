@@ -5,33 +5,40 @@ import java.util.Map;
 
 public interface ExpertService {
 
-    /**
-     * 批量添加专家
-     * Map {"expertId":int
-     *      "field":string
-     *      "organization":string
-     *      "name":String
-     *      }
-     * @param list
-     * @return
-     */
-    int insertExpertByBatch(List<Map> list);
-
-    /**
-     * 批量添加专家专家
-     * Map {"expertId1":int
-     *      "expertId2":int
-     *      }
-     * @param list
-     * @return
-     */
-    int insertExpertExpertByBatch(List<Map> list);
+//    /**
+//     * 批量添加专家
+//     * Map {"expertId":int
+//     *      "field":string
+//     *      "organization":string
+//     *      "name":String
+//     *      }
+//     * @param list
+//     * @return
+//     */
+//    int insertExpertByBatch(List<Map> list);
+//
+//    /**
+//     * 批量添加专家专家
+//     * Map {"expertId1":int
+//     *      "expertId2":int
+//     *      }
+//     * @param list
+//     * @return
+//     */
+//    int insertExpertExpertByBatch(List<Map> list);
 
 
     /**
      * todo 显示的内容
      * 用于管理员审核，显示所有提交的审核信息
      * @return
+     * List<Map>
+     *     Map{
+     *          "expertId"
+     *          "name"
+     *          "userId"
+     *          "nickname"
+     *     }
      */
     List<Map> selectApplyingExpert();
 

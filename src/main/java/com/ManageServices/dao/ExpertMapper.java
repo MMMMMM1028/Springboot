@@ -82,6 +82,7 @@ public interface ExpertMapper {
      * @return
      */
     List<Map> selectApplyingExpert();
+
     /**
      * 删除专家
      * @param expertId 只能根据id进行删除

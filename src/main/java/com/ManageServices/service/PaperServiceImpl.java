@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,25 +29,19 @@ public class PaperServiceImpl implements PaperService {
 
     @Override
     @Transactional
-    public int insert(List<Map> list){
+    public List insert(List<Map> list){
+        List expertIdList = new ArrayList();
         for (Map map : list){
-            upload(map);
+            expertIdList.add(upload(map));
         }
-        return 0;
+        return expertIdList;
     }
 
     private int upload(Map paper){
         List<Map> authorList = (List<Map>)paper.get("author");
         //移处author，插入数据库paper_
         paper.remove("author");
-//        map.remove("author");
-//        String title = (String) map.get("title");
-//        String summary = (String) map.get("summary");
-//        String keyword = (String) map.get("keyword");
-//        Map paper = new HashMap();
-//        paper.put("title",title);
-//        paper.put("summary",summary);
-//        paper.put("keyword",keyword);
+
         //将论文插入论文表，todo 假设没有重复
         pm.insertPaperByMap(paper);
         int paperId = (int) paper.get("paperId");
@@ -97,16 +92,16 @@ public class PaperServiceImpl implements PaperService {
         return 0;
     }
 
-    @Override
-    public int insertPaperByBatch(List<Map> list) {
-        return pm.insertByBatch(list);
-    }
-
-
-    @Override
-    public int insertExpertPaperByBatch(List<Map> list) {
-        return epm.insertByBatch(list);
-    }
+//    @Override
+//    public int insertPaperByBatch(List<Map> list) {
+//        return pm.insertByBatch(list);
+//    }
+//
+//
+//    @Override
+//    public int insertExpertPaperByBatch(List<Map> list) {
+//        return epm.insertByBatch(list);
+//    }
 
 
     @Transactional

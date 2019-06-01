@@ -117,12 +117,14 @@
         <result property="ownerId" column="ownerId" javaType="int"></result>
         <collection  property="authorList" javaType="java.util.List" ofType="java.util.Map">
             <id column="expertId" javaType="int" property="expertId"></id>
-            <association property="expertName" column="name" javaType="String">
-            </association>
+            <!--<association property="expertName" column="name" javaType="String">-->
+            <!--</association>-->
+            <result property="expertName" javaType="String" column="name" ></result>
         </collection>
     </resultMap>
     <select id="selectPaperDetial"  resultMap="paperDetial">
-        SELECT p.*,ep.expertId,e.name FROM paper_ p LEFT JOIN expert_paper_ ep ON p.paperId = ep.paperId
+        SELECT p.*,ep.expertId,e.name
+        FROM paper_ p LEFT JOIN expert_paper_ ep ON p.paperId = ep.paperId
         LEFT JOIN expert_ e ON ep.expertId = e.expertId
         WHERE p.paperId = #{paperId}
     </select>
