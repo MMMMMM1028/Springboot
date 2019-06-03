@@ -10,9 +10,26 @@
         VALUES (#{userId},#{paperId},#{orderDate},#{amount})
     </insert>
 
-    <select id="selectOrder" resultType="java.util.Map">
-        SELECT orderDate,amount,p.paperId,p.title,p.author
+
+    <resultMap id="orderItem" type="java.util.Map">
+        <id property="orderId" column="orderId" javaType="int"></id>
+        <result property="paperId" column="paperId" javaType="int"></result>
+        <result property="title" column="title" javaType="String"></result>
+        <result property="orderDate" column="orderDate" javaType="String"></result>
+        <result property="amount" column="amount" javaType="int"></result>
+        <collection  property="authorList" javaType="java.util.List" ofType="java.util.Map">
+            <id column="expertId" javaType="int" property="expertId"></id>
+            <result property="name" column="name" javaType="String"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectOrder" resultMap="orderItem">
+        SELECT orderId,orderDate,amount,p.paperId,p.title,author.expertId,author.name
         FROM order_ o LEFT JOIN paper_ p ON o.paperId = p.paperId
+        LEFT JOIN (SELECT ep.expertId,name,paperId
+                    FROM expert_ LEFT JOIN expert_paper_ ep ON expert_.expertId = ep.expertId
+                    )AS author
+        ON p.paperId = author.paperId
         <where>
             <if test="userId != -1">
                 AND userId = #{userId}
@@ -25,4 +42,6 @@
             </if>
         </where>
     </select>
+
+
 </mapper>

@@ -95,7 +95,7 @@ public class ExpertServiceImpl implements ExpertService{
 
 
     private List<Map> selectPatentByEid(int expertId) {
-        List<Map> patentList = patentm.selectPatent(null,expertId,null);
+        List<Map> patentList = patentm.selectPatent(null,expertId);
         return patentList;
     }
 

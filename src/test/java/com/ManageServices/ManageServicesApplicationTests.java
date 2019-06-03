@@ -3,6 +3,8 @@ package com.ManageServices;
 import com.ManageServices.dao.*;
 import com.ManageServices.service_interface.*;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -129,6 +131,8 @@ public class ManageServicesApplicationTests {
 	    String name = "仰燕兰";
 	    String org = "东南大学自动化学院";
 	    int result = us.beExpert(userId,field,org,name,null,null);
+	    System.out.println(insert);
+//        SqlSessionFactoryBuilder
 	}
 
 	@Test
@@ -160,8 +164,8 @@ public class ManageServicesApplicationTests {
 
     @Test
     public void testOrderService(){
-        int resutl = os.purchasePaper(15,1);
-        os.selectOrderList(15,null,null);
+//        int resutl = os.purchasePaper(15,1);
+        List orderlist = os.selectOrderList(1,null,null);
     }
 
     @Test

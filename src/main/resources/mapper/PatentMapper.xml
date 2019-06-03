@@ -6,8 +6,8 @@
     <cache type="com.ManageServices.redis.RedisCache2"/>
     <insert id="insertPatent">
         INSERT
-        INTO patent_(patentId, patentName, expertId)
-        VALUES (#{patentId}, #{patentName}, #{expertId})
+        INTO patent_(patentId, patentName, expertId, link, summary)
+        VALUES (#{patentId}, #{patentName}, #{expertId},#{link},#{summary})
     </insert>
 
     <update id="updatePatent">
@@ -29,12 +29,9 @@
     </delete>
 
     <select id="selectPatent" resultType="java.util.Map">
-        SELECT patentId,patentName,e.expertId,e.name
+        SELECT patent_.*,e.name
         FROM patent_ LEFT JOIN expert_ e ON patent_.expertId = e.expertId
         <where>
-            <if test="patentName != null">
-                AND patentName LIKE "%"#{patentName}"%"
-            </if>
             <if test="patentId != null">
                 AND  patent_.patentId = #{patentId}
             </if>
