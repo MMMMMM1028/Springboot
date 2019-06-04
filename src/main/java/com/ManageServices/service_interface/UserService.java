@@ -38,14 +38,14 @@ public interface UserService {
      * @param pwd
      */
     int resetPwd(int userId, String pwd);
-
-    /**
-     * 更换头像
-     * @param userId
-     * @param iconPath
-     *
-     */
-    int changeIcon(int userId, String iconPath);
+//
+//    /**
+//     * 更换头像
+//     * @param userId
+//     * @param iconPath
+//     *
+//     */
+//    int changeIcon(int userId, String iconPath);
 
     /**
      * 更换昵称
@@ -65,6 +65,14 @@ public interface UserService {
     int updateBalance(int userId, int increment);
 
 
+
+    /**
+     * 更改邮箱
+     * @param mail
+     * @return
+     */
+    int updateMail(int userId, String mail);
+
     /**
      * 申请成为专家，只能通过申请成为专家来认领已经存在的专家主页，且不会有任何提示该专家主页已经存在
      * 显示给用户的只有一种成为专家的方法
@@ -72,12 +80,10 @@ public interface UserService {
      * @param field
      * @param organization
      * @param name
-     * @param tel
-     * @param mail
      * @return
      * -1 代表申请失败，该专家信息已经存在或正在审核
      */
-    int beExpert(int userId, String field, String organization, String name, String tel, String mail);
+    int beExpert(int userId, String field, String organization, String name);
 
 
 }

@@ -82,12 +82,4 @@ public interface ExpertService {
      */
     Map selectExpertPersonalInf(int expertId);
 
-
-    /**
-     * 根据专家的姓名进行查询
-     * @param name
-     * @return
-     */
-    List<Map> selectExpertByName(String name);
-
 }

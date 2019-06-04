@@ -40,13 +40,11 @@ public interface ExpertMapper {
      * @param organization 组织
      * @param income 收入增量,-1代表不修改
      * @param name 姓名
-     * @param tel 电话
      * @param isPassed -1为认证，0正在审核，1已认证
      * @return 是否成功
      */
     int updateExpert(@Param("expertId")int expertId,@Param("field")String field, @Param("organization")String organization,
-                     @Param("name")String name, @Param("tel")String tel, @Param("mail")String mail,
-                     @Param("income")int income, @Param("isPassed")int isPassed);
+                     @Param("name")String name, @Param("income")int income, @Param("isPassed")int isPassed);
 
 //    /**
 //     * 绑定用户与专家
@@ -89,13 +87,6 @@ public interface ExpertMapper {
      * @return 是否成功
      */
     int deleteExpert(@Param("expertId")int expertId);
-
-    /**
-     * 搜索专家，根据专家姓名进行模糊查询
-     * @param expertName 专家姓名
-     * @return
-     */
-    List<Map> selectExpertByName(@Param("expertName")String expertName);
 
     /**
      * 通过ID，查询专家的详细信息，

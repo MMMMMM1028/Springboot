@@ -61,10 +61,10 @@ public class UserServiceImpl implements UserService{
         return um.updateUser(userId,null,pwd,null,null,null,0);
     }
 
-    @Transactional
-    public int changeIcon(int userId, String iconPath){
-        return um.updateUser(userId,null,null,null,null,iconPath,0);
-    }
+//    @Transactional
+//    public int changeIcon(int userId, String iconPath){
+//        return um.updateUser(userId,null,null,null,null,iconPath,0);
+//    }
 
     @Transactional
     public int changeNickname(int userId, String nickname){
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public int beExpert(int userId, String field, String organization, String name, String tel, String mail) {
+    public int beExpert(int userId, String field, String organization, String name) {
         Map expert = new HashMap();
         expert.put("field",field);
         expert.put("name",name);
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService{
             //设置isPassed为0代表审核中
             //-1未被认领
             //1通过
-            return em.updateExpert(expertId,field,organization,name,tel,mail,-1, 0);
+            return em.updateExpert(expertId,field,organization,name,-1, 0);
         }else{//已有专家门户
             int expertId = (int) e.get("expertId");
             int isPassed = (int) e.get("isPassed");
@@ -100,9 +100,16 @@ public class UserServiceImpl implements UserService{
             }else{
                 //完善专家信息
                 um.bindExpert(userId,expertId);
-                return em.updateExpert(expertId,field,organization,name,tel,mail,-1, 0);
+                return em.updateExpert(expertId,field,organization,name,-1, 0);
             }
         }
+    }
+
+    @Override
+    @Transactional
+    public int updateMail(int userId, String mail) {
+        return um.updateUser(userId, null,null,null,
+                mail,null,-1);
     }
 
 }

@@ -68,9 +68,9 @@ public class ManageServicesApplicationTests {
 
 	@Test
 	public void testExpertMapper(){
-//		int i = em.insertExpert(3,"计算机","北航","张三",null,null);
-		Map m = em.selectExpertDetial(3);
-		List<Map> l = em.selectExpertByName("张");
+////		int i = em.insertExpert(3,"计算机","北航","张三",null,null);
+//		Map m = em.selectExpertDetial(3);
+//		List<Map> l = em.selectExpertByName("张");
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class ManageServicesApplicationTests {
 //		int result = patm.insertPatent("patentId1","patentName1",1);
 //		List l = patm.selectPatent("patentId1",-1,null);
 //		List l = patm.selectPatent(null,1,null);
-		List l = patm.selectPatent(null,-1,"pat");
+//		List l = patm.selectPatent(null,-1,"pat");
 //		int result = patm.deletePatent("1",-1);
 //		result = patm.deletePatent(null,1);
 
@@ -130,21 +130,23 @@ public class ManageServicesApplicationTests {
 	    String field = "系统工程 地图制图学与地理信息工程";
 	    String name = "仰燕兰";
 	    String org = "东南大学自动化学院";
-	    int result = us.beExpert(userId,field,org,name,null,null);
+	    int result = us.beExpert(userId,field,org,name);
 	    System.out.println(insert);
 //        SqlSessionFactoryBuilder
 	}
 
 	@Test
     public void testExpertService(){
-        String uname = "testuser1";
-        String pwd = "123456";
-        Map login = us.login(uname,pwd);
-        int userId = (int) login.get("userId");
-        int expertId = (int) login.get("expertId");
-        Map expertInf = es.selectExpertPersonalInf(expertId);
-        Map expertHome = es.selectExpertHomeByEid(expertId);
-//        pm.selectPaperByEid(1);
+//        String uname = "testuser1";
+//        String pwd = "123456";
+//        Map login = us.login(uname,pwd);
+//        int userId = (int) login.get("userId");
+//        int expertId = (int) login.get("expertId");
+//        Map expertInf = es.selectExpertPersonalInf(expertId);
+//        Map expertHome = es.selectExpertHomeByEid(expertId);
+////        pm.selectPaperByEid(1);
+		us.beExpert(29,"分布式与并行计算 计算机网络 软件工程 通信与信息系统","东南大学自动化学院","金晓雪");
+		List list = es.selectApplyingExpert();
     }
 
 
@@ -158,7 +160,7 @@ public class ManageServicesApplicationTests {
 
     @Test
     public void testPatetnService(){
-	    patentService.selectPatentByName("patent");
+//	    patentService.selectPatentByName("patent");
 	    patentService.transferPatnet(2,"patentId1");
     }
 

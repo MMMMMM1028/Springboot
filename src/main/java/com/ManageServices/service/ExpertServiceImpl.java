@@ -88,8 +88,7 @@ public class ExpertServiceImpl implements ExpertService{
     @Override
     @Transactional
     public int authorizeExpert(int expertId) {
-        int result = em.updateExpert(expertId,null,null,null,null,null,
-                -1,1);
+        int result = em.updateExpert(expertId,null,null,null,-1,1);
         return result;
     }
 
@@ -97,13 +96,6 @@ public class ExpertServiceImpl implements ExpertService{
     private List<Map> selectPatentByEid(int expertId) {
         List<Map> patentList = patentm.selectPatent(null,expertId);
         return patentList;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Map> selectExpertByName(String name) {
-        List<Map> expertList = em.selectExpertByName(name);
-        return expertList;
     }
 
 }

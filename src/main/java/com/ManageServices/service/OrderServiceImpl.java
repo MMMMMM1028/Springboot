@@ -40,8 +40,7 @@ public class OrderServiceImpl implements OrderService {
             String date = df.format(new Date());
             om.insertOrder(userId,paperId,date,price);
             int ownerId = (int) paper.get("ownerId");
-            em.updateExpert(ownerId,null,null,null,null,null,
-                    price,-1);
+            em.updateExpert(ownerId,null,null,null,price,-1);
             um.updateUser(userId,null,null,null,null,
                     null,-price);
         }

@@ -24,8 +24,8 @@
 
     <insert id="insertExpert">
         INSERT
-        INTO expert_(field,organization,name,tel,mail)
-        VALUES (#{field},#{organization},#{name},#{tel},#{mail})
+        INTO expert_(field,organization,name)
+        VALUES (#{field},#{organization},#{name})
     </insert>
     <!--<insert id="insertExpert">-->
         <!--INSERT-->
@@ -47,15 +47,9 @@
             <if test="name != null">
                 name = #{name},
             </if>
-            <if test="tel != null">
-                tel = #{tel},
-            </if>
             <if test="isPassed != -1">
                 isPassed = #{isPassed},
             </if>
-            <!--<if test="userId != -1">-->
-                <!--userId = #{userId}-->
-            <!--</if>-->
         </set>
         WHERE expertId = #{expertId}
     </update>
@@ -66,7 +60,7 @@
     <!--</update>-->
 
     <select id="selectExpertPersonalInf" resultType="java.util.Map">
-        select e.*,u.nickname,u.balance,u.iconPath,u.mail
+        select e.*,u.nickname,u.balance,u.iconPath
         from expert_ e LEFT JOIN user_ u on e.expertId = u.expertId
         WHERE e.expertId = #{expertId}
     </select>
@@ -81,16 +75,12 @@
         WHERE expertId = #{expertId}
     </delete>
 
-    <select id="selectExpertByName" resultType="java.util.Map">
-        SELECT name,field,organization,expertId
-        FROM expert_
-        WHERE name LIKE "%"#{expertName}"%"
-    </select>
     <select id="selectExpertBasic" resultType="java.util.Map">
         SELECT expertId,field,organization,name
         FROM expert_
         WHERE expertId = #{expertId}
     </select>
+
     <select id="selectExpertDetial" resultType="java.util.Map">
         SELECT *
         FROM expert_
